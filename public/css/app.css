@@ -243,7 +243,6 @@ body {
   position: relative;
 }
 .about__title {
-  font-family: "Hepta Slab", serif;
   font-weight: 700;
   font-size: 128px;
   line-height: 1;
@@ -260,7 +259,6 @@ body {
   align-items: start;
 }
 .about__text {
-  font-family: "Lora", serif;
   font-size: 18px;
   line-height: 26.5px;
 }
@@ -273,23 +271,72 @@ body {
 .about__accent {
   color: var(--gold);
 }
-.about__media {
+.about .timeline-badge {
   position: relative;
-}
-.about__media img {
   width: 100%;
-  height: 596px;
-  object-fit: cover;
-  display: block;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* ===== Outer circle ===== */
 }
-.about__label {
+.about .timeline-badge__outer {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(202, 138, 4, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about .timeline-badge {
+  /* ===== Inner circle ===== */
+}
+.about .timeline-badge__inner {
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about .timeline-badge {
+  /* ===== Content ===== */
+}
+.about .timeline-badge__content {
+  text-align: center;
+}
+.about .timeline-badge__year {
+  font-size: clamp(3rem, 5vw, 4rem);
+  font-weight: 300;
+  color: #facc15;
+  margin-bottom: 1rem;
+}
+.about .timeline-badge__label {
+  font-size: 1.125rem;
+  color: rgba(250, 204, 21, 0.8);
+}
+.about .timeline-badge {
+  /* ===== Small milestone badge ===== */
+}
+.about .timeline-badge__milestone {
   position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: "Lora", serif;
-  font-size: 18px;
-  color: #fac700;
+  bottom: -32px;
+  right: -32px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: rgba(234, 179, 8, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about .timeline-badge__milestone span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #facc15;
 }
 
 /* Responsive — аккуратно, без поломки */

@@ -287,7 +287,6 @@ body {
 	}
 
 	&__title {
-		font-family: "Hepta Slab", serif;
 		font-weight: 700;
 		font-size: 128px;
 		line-height: 1;
@@ -307,7 +306,6 @@ body {
 	}
 
 	&__text {
-		font-family: "Lora", serif;
 		font-size: 18px;
 		line-height: 26.5px;
 
@@ -324,25 +322,84 @@ body {
 		color: var(--gold);
 	}
 
-	&__media {
+	.timeline-badge {
 		position: relative;
+		width: 100%;
+		aspect-ratio: 1 / 1;
 
-		img {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		/* ===== Outer circle ===== */
+		&__outer {
 			width: 100%;
-			height: 596px;
-			object-fit: cover;
-			display: block;
-		}
-	}
+			height: 100%;
+			border-radius: 50%;
 
-	&__label {
-		position: absolute;
-		bottom: 16px;
-		left: 50%;
-		transform: translateX(-50%);
-		font-family: "Lora", serif;
-		font-size: 18px;
-		color: #fac700;
+			background: linear-gradient(135deg,
+				rgba(234, 179, 8, 0.2),
+				rgba(202, 138, 4, 0.1)
+			);
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* ===== Inner circle ===== */
+		&__inner {
+			width: 75%;
+			height: 75%;
+			border-radius: 50%;
+
+			background: rgba(234, 179, 8, 0.1);
+			border: 1px solid rgba(234, 179, 8, 0.3);
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* ===== Content ===== */
+		&__content {
+			text-align: center;
+		}
+
+		&__year {
+			font-size: clamp(3rem, 5vw, 4rem);
+			font-weight: 300;
+			color: #facc15;
+			margin-bottom: 1rem;
+		}
+
+		&__label {
+			font-size: 1.125rem;
+			color: rgba(250, 204, 21, 0.8);
+		}
+
+		/* ===== Small milestone badge ===== */
+		&__milestone {
+			position: absolute;
+			bottom: -32px;
+			right: -32px;
+
+			width: 96px;
+			height: 96px;
+			border-radius: 50%;
+
+			background: rgba(234, 179, 8, 0.2);
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			span {
+				font-size: 1rem;
+				font-weight: 500;
+				color: #facc15;
+			}
+		}
 	}
 }
 
