@@ -23,7 +23,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: "Inter", sans-serif;
+  font-family: "Lora", sans-serif;
   font-size: 16px;
   line-height: 24px;
   -webkit-font-smoothing: antialiased;
@@ -66,7 +66,6 @@ body {
   gap: 32px;
 }
 .site-header__nav a {
-  font-family: "Lora", serif;
   font-size: 14px;
   letter-spacing: 1.5px;
   color: rgba(255, 255, 255, 0.8);
@@ -83,7 +82,6 @@ body {
   border-radius: 42px;
   color: var(--gold);
   text-decoration: none;
-  font-family: "Lora", serif;
   font-size: 14px;
   letter-spacing: 1.5px;
 }
@@ -133,13 +131,11 @@ body {
   margin: 8px 0 18px;
   background: var(--black);
   color: #fff;
-  font-family: "Lora", serif;
   font-size: 18px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 .hero__desc {
-  font-family: "Lora", serif;
   font-size: 18px;
   line-height: 26.5px;
   color: var(--muted);
@@ -163,7 +159,6 @@ body {
   border: 1px solid var(--black);
   border-radius: 42px;
   text-decoration: none;
-  font-family: "Lora", serif;
   font-size: 14px;
   letter-spacing: 1.5px;
 }
@@ -171,26 +166,17 @@ body {
   width: 38px;
   height: 34px;
 }
-.hero {
-  /* ---- Media / Swiper ---- */
-}
-.hero__media {
-  max-width: 567px;
-}
 
 /* =====================
    Hero Swiper
 ===================== */
-.hero-swiper {
-  aspect-ratio: 567/652;
-}
 .hero-swiper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 .hero-swiper .swiper-pagination {
-  position: static;
+  position: relative;
   margin-top: 16px;
   display: flex;
   justify-content: center;
@@ -227,14 +213,12 @@ body {
   gap: 32px;
   padding-left: 10px;
   white-space: nowrap;
-  font-family: "Lora", serif;
   font-size: 18px;
   letter-spacing: 1px;
   color: var(--black);
   animation: ticker 28s linear infinite;
 }
 .ticker__sep {
-  font-family: "Inter", sans-serif;
   font-weight: 300;
 }
 
