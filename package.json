@@ -1,0 +1,19 @@
+{
+  "name": "atine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "sass --watch assets/styles/app.scss:public/css/app.css",
+    "build": "sass assets/styles/app.scss:public/css/app.css --style=compressed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "sass": "^1.96.0"
+  }
+}

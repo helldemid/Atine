@@ -1,0 +1,312 @@
+/* =====================
+   Variables
+===================== */
+
+:root {
+	--bg: #f7f7fb;
+	--black: #000;
+	--text: #0a0a0a;
+	--muted: #727276;
+	--gold: #c6a059;
+	--yellow: #ffd700;
+
+	--container: 1194px;
+	--px: clamp(20px, 6vw, 123px);
+}
+
+/* =====================
+   Base
+===================== */
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: "Inter", sans-serif;
+	font-size: 16px;
+	line-height: 24px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+	max-width: calc(var(--container) + var(--px) * 2);
+	padding-inline: var(--px);
+	margin-inline: auto;
+}
+
+/* =====================
+   Header
+===================== */
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	height: 80px;
+	background: rgba(0, 0, 0, 0.9);
+	display: flex;
+	align-items: center;
+
+	&__inner {
+		display: grid;
+		grid-template-columns: 48px 1fr auto;
+		align-items: center;
+		gap: 32px;
+	}
+
+	&__logo img {
+		width: 48px;
+		height: 48px;
+		object-fit: cover;
+		display: block;
+	}
+
+	&__nav {
+		display: flex;
+		justify-content: center;
+		gap: 32px;
+
+		a {
+			font-family: "Lora", serif;
+			font-size: 14px;
+			letter-spacing: 1.5px;
+			color: rgba(255, 255, 255, 0.8);
+			text-decoration: none;
+			white-space: nowrap;
+		}
+	}
+
+	&__cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		height: 36px;
+		padding: 0 14px 0 18px;
+
+		border: 1px solid var(--gold);
+		border-radius: 42px;
+
+		color: var(--gold);
+		text-decoration: none;
+		font-family: "Lora", serif;
+		font-size: 14px;
+		letter-spacing: 1.5px;
+
+		&-icon {
+			width: 38px;
+			height: 34px;
+			display: block;
+		}
+	}
+}
+
+/* =====================
+   Hero
+===================== */
+
+.hero {
+	padding: 92px 0 80px;
+	background: var(--bg);
+
+	&__inner {
+		display: grid;
+		grid-template-columns: minmax(320px, 520px) minmax(320px, 567px);
+		align-items: center;
+		justify-content: space-between;
+		gap: clamp(24px, 6vw, 80px);
+	}
+
+	/* ---- Text ---- */
+
+	&__title {
+		margin: 0 0 12px;
+		font-family: "Hepta Slab", serif;
+		font-weight: 700;
+		font-size: clamp(64px, 8.5vw, 138px);
+		line-height: 1;
+		letter-spacing: -0.02em;
+
+		&-a {
+			color: var(--gold);
+		}
+
+		&-rest {
+			color: #0d0c04;
+		}
+	}
+
+	&__badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		height: 52px;
+		padding: 0 22px;
+		margin: 8px 0 18px;
+
+		background: var(--black);
+		color: #fff;
+
+		font-family: "Lora", serif;
+		font-size: 18px;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+
+	&__desc {
+		font-family: "Lora", serif;
+		font-size: 18px;
+		line-height: 26.5px;
+		color: var(--muted);
+
+		p {
+			margin: 0 0 12px;
+		}
+	}
+
+	&__note {
+		font-size: 14px;
+		font-style: italic;
+	}
+
+	&__btn {
+		margin-top: 18px;
+		display: inline-flex;
+		align-items: center;
+		gap: 14px;
+
+		height: 48px;
+		padding: 0 16px 0 26px;
+
+		background: var(--black);
+		color: #fff;
+		border: 1px solid var(--black);
+		border-radius: 42px;
+
+		text-decoration: none;
+		font-family: "Lora", serif;
+		font-size: 14px;
+		letter-spacing: 1.5px;
+
+		&-icon {
+			width: 38px;
+			height: 34px;
+		}
+	}
+
+	/* ---- Media / Swiper ---- */
+
+	&__media {
+		max-width: 567px;
+	}
+}
+
+/* =====================
+   Hero Swiper
+===================== */
+
+.hero-swiper {
+	aspect-ratio: 567 / 652;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.swiper-pagination {
+		position: static;
+		margin-top: 16px;
+		display: flex;
+		justify-content: center;
+		gap: 32px;
+	}
+
+	.swiper-pagination-bullet {
+		width: 100px;
+		height: 10px;
+		border-radius: 48px;
+		background: var(--muted);
+		opacity: 1;
+
+		&-active {
+			background: var(--text);
+		}
+	}
+}
+
+/* =====================
+   Ticker
+===================== */
+
+.ticker {
+	height: 60px;
+	background: var(--gold);
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+
+	&__track {
+		width: 100%;
+		overflow: hidden;
+	}
+
+	&__row {
+		display: inline-flex;
+		align-items: center;
+		gap: 32px;
+		padding-left: 10px;
+
+		white-space: nowrap;
+		font-family: "Lora", serif;
+		font-size: 18px;
+		letter-spacing: 1px;
+		color: var(--black);
+
+		animation: ticker 28s linear infinite;
+	}
+
+	&__sep {
+		font-family: "Inter", sans-serif;
+		font-weight: 300;
+	}
+}
+
+@keyframes ticker {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+/* =====================
+   Responsive
+===================== */
+
+@media (max-width: 980px) {
+	.site-header {
+		&__nav {
+			display: none;
+		}
+	}
+
+	.hero {
+		padding-top: 36px;
+
+		&__inner {
+			grid-template-columns: 1fr;
+		}
+
+		&__media {
+			order: -1;
+		}
+	}
+}
