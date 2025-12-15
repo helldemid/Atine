@@ -752,3 +752,135 @@ button {
 		}
 	}
 }
+
+/* =====================
+   How Works Section
+===================== */
+
+.how-works {
+	background: #f7f7f9;
+	padding: clamp(60px, 10vw, 120px) 0;
+
+	&__inner {
+		display: grid;
+		grid-template-columns: 1fr minmax(300px, 520px);
+		gap: clamp(48px, 8vw, 96px);
+		align-items: center;
+
+		@include desktop-sm {
+			grid-template-columns: 1fr;
+			gap: 48px;
+		}
+	}
+
+	&__title {
+		font-weight: 700;
+		font-size: clamp(72px, 10vw, 128px);
+		line-height: 1;
+		letter-spacing: -4px;
+		margin-bottom: 48px;
+
+		.gold {
+			color: var(--gold);
+		}
+
+		.dark {
+			color: var(--black);
+		}
+	}
+
+	&__lead {
+		font-size: 1.25rem;
+		line-height: 1.6;
+		color: var(--muted);
+		margin-bottom: 48px;
+		max-width: 90%;
+		/* Чтобы текст не был слишком широким на больших экранах */
+	}
+
+	&__steps {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	&__image {
+		@include desktop-sm {
+			order: -1;
+			/* Картинка сверху на мобильных */
+			margin-bottom: 32px;
+		}
+
+		img {
+			width: 100%;
+			height: auto;
+			border-radius: 16px;
+			display: block;
+			object-fit: cover;
+			box-shadow: 0 16px 32px rgba(0, 0, 0, 0.05);
+			/* Легкая тень для объема */
+		}
+	}
+}
+
+/* =====================
+   How Step (Component)
+===================== */
+
+.how-step {
+	display: flex;
+	gap: 24px;
+	margin-bottom: 32px;
+
+	/* Для последнего элемента убираем отступ */
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	/* Интерактив при наведении на весь блок */
+	&:hover {
+		.how-step__num {
+			background: var(--black);
+			color: var(--gold);
+			transform: scale(1.1);
+		}
+	}
+
+	&__num {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		background: var(--gold);
+		color: var(--black);
+		font-family: "Hepta Slab", serif;
+		font-weight: 700;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		/* Чтобы цифра не сжималась */
+
+		/* Анимация */
+		transition: background 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	&__content {
+		/* Обертка для текста (если её нет в HTML, стили применятся к контексту flex) */
+		flex: 1;
+	}
+
+	strong {
+		display: block;
+		font-size: 18px;
+		/* Чуть увеличил для читаемости */
+		color: var(--text);
+		margin-bottom: 8px;
+	}
+
+	p {
+		font-size: 15px;
+		line-height: 1.6;
+		color: var(--muted);
+		margin: 0;
+	}
+}
