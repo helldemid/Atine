@@ -1,0 +1,9 @@
+<form method="post" action="/order" class="order-form">
+	<h4 class="order-form__title">Замовити зараз</h4>
+	<input type="hidden" name="product_id" value="{{ product.id }}">
+
+	<input type="email" placeholder="Ваш email" name="email" autocomplete="email">
+	<input type="tel" placeholder="Ваш телефон" name="phone" autocomplete="tel">
+
+	<button>Замовити {{ product.name }} · ₴{{ product.price }}</button>
+</form>

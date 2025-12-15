@@ -1,5 +1,7 @@
 twig:
     file_name_pattern: '*.twig'
+    globals:
+        products_base_path: 'media/products'
 
 when@test:
     twig:

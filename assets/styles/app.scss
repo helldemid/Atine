@@ -1,8 +1,9 @@
 /* =====================
-   Variables
+   Variables & Config
 ===================== */
 
 :root {
+	/* Оригинальные переменные */
 	--bg: #f7f7fb;
 	--black: #000;
 	--text: #0a0a0a;
@@ -10,27 +11,60 @@
 	--gold: #c6a059;
 	--yellow: #ffd700;
 
-	--container: 1194px;
+	--container: 1200px;
 	--px: clamp(20px, 6vw, 123px);
+
+	/* Дополнительные служебные переменные */
+	--header-height: 80px;
+	--transition: 0.3s ease;
+}
+
+/* Миксины для адаптива (чтобы не дублировать код) */
+@mixin tablet {
+	@media (max-width: 980px) {
+		@content;
+	}
+}
+
+@mixin desktop-sm {
+	@media (max-width: 1100px) {
+		@content;
+	}
 }
 
 /* =====================
-   Base
+   Base & Reset
 ===================== */
+
+* {
+	margin: 0;
+	padding: 0;
+}
 
 html {
 	scroll-behavior: smooth;
 }
 
 body {
-	margin: 0;
 	background: var(--bg);
 	color: var(--text);
 	font-family: "Lora", sans-serif;
 	font-size: 16px;
-	line-height: 24px;
+	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a,
+button {
+	transition: var(--transition);
+	/* Плавность везде */
 }
 
 .container {
@@ -47,8 +81,10 @@ body {
 	position: sticky;
 	top: 0;
 	z-index: 50;
-	height: 80px;
+	height: var(--header-height);
 	background: rgba(0, 0, 0, 0.9);
+	backdrop-filter: blur(10px);
+	/* Стекломорфизм */
 	display: flex;
 	align-items: center;
 
@@ -57,13 +93,13 @@ body {
 		grid-template-columns: 48px 1fr auto;
 		align-items: center;
 		gap: 32px;
+		width: 100%;
 	}
 
 	&__logo img {
 		width: 48px;
 		height: 48px;
 		object-fit: cover;
-		display: block;
 	}
 
 	&__nav {
@@ -71,12 +107,38 @@ body {
 		justify-content: center;
 		gap: 32px;
 
+		@include tablet {
+			display: none;
+		}
+
 		a {
 			font-size: 14px;
+			font-weight: 300;
 			letter-spacing: 1.5px;
 			color: rgba(255, 255, 255, 0.8);
 			text-decoration: none;
 			white-space: nowrap;
+			position: relative;
+
+			/* Эффект подчеркивания при наведении */
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: -4px;
+				left: 0;
+				width: 0;
+				height: 1px;
+				background: var(--gold);
+				transition: width 0.3s ease;
+			}
+
+			&:hover {
+				color: #fff;
+
+				&::after {
+					width: 100%;
+				}
+			}
 		}
 	}
 
@@ -86,10 +148,8 @@ body {
 		gap: 12px;
 		height: 36px;
 		padding: 0 14px 0 18px;
-
 		border: 1px solid var(--gold);
 		border-radius: 42px;
-
 		color: var(--gold);
 		text-decoration: none;
 		font-size: 14px;
@@ -99,6 +159,13 @@ body {
 			width: 38px;
 			height: 34px;
 			display: block;
+			fill: currentColor;
+			/* Иконка красится вместе с текстом */
+		}
+
+		&:hover {
+			background: var(--gold);
+			color: var(--black);
 		}
 	}
 }
@@ -111,20 +178,35 @@ body {
 	padding: 92px 0 80px;
 	background: var(--bg);
 
+	@include tablet {
+		padding-top: 36px;
+	}
+
 	&__inner {
 		display: grid;
 		grid-template-columns: minmax(320px, 520px) minmax(320px, 567px);
 		align-items: center;
 		justify-content: space-between;
 		gap: clamp(24px, 6vw, 80px);
+
+		@include tablet {
+			grid-template-columns: 1fr;
+		}
 	}
 
-	/* ---- Text ---- */
+	&__media {
+		@include tablet {
+			order: -1;
+			/* Картинка сверху на мобильных */
+			justify-self: center;
+		}
+	}
 
 	&__title {
 		margin: 0 0 12px;
 		font-family: "Hepta Slab", serif;
 		font-weight: 700;
+		/* clamp для плавного изменения размера шрифта */
 		font-size: clamp(64px, 8.5vw, 138px);
 		line-height: 1;
 		letter-spacing: -0.02em;
@@ -142,22 +224,21 @@ body {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-
 		height: 52px;
 		padding: 0 22px;
 		margin: 8px 0 18px;
-
 		background: var(--black);
 		color: #fff;
-
 		font-size: 18px;
 		letter-spacing: 1.5px;
 		text-transform: uppercase;
+		border-radius: 4px;
+		/* Небольшое скругление */
 	}
 
 	&__desc {
 		font-size: 18px;
-		line-height: 26.5px;
+		line-height: 1.5;
 		color: var(--muted);
 
 		p {
@@ -175,15 +256,12 @@ body {
 		display: inline-flex;
 		align-items: center;
 		gap: 14px;
-
 		height: 48px;
 		padding: 0 16px 0 26px;
-
 		background: var(--black);
 		color: #fff;
 		border: 1px solid var(--black);
 		border-radius: 42px;
-
 		text-decoration: none;
 		font-size: 14px;
 		letter-spacing: 1.5px;
@@ -191,6 +269,11 @@ body {
 		&-icon {
 			width: 38px;
 			height: 34px;
+		}
+
+		&:hover {
+			background: transparent;
+			color: var(--black);
 		}
 	}
 }
@@ -204,6 +287,8 @@ body {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		border-radius: 12px;
+		/* Эстетическое улучшение */
 	}
 
 	.swiper-pagination {
@@ -220,8 +305,11 @@ body {
 		border-radius: 48px;
 		background: var(--muted);
 		opacity: 1;
+		cursor: pointer;
+		transition: background var(--transition);
 
-		&-active {
+		&-active,
+		&:hover {
 			background: var(--text);
 		}
 	}
@@ -237,6 +325,7 @@ body {
 	display: flex;
 	align-items: center;
 	overflow: hidden;
+	user-select: none;
 
 	&__track {
 		width: 100%;
@@ -248,12 +337,12 @@ body {
 		align-items: center;
 		gap: 32px;
 		padding-left: 10px;
-
 		white-space: nowrap;
 		font-size: 18px;
 		letter-spacing: 1px;
 		color: var(--black);
-
+		will-change: transform;
+		/* Оптимизация анимации */
 		animation: ticker 28s linear infinite;
 	}
 
@@ -273,13 +362,12 @@ body {
 }
 
 /* =====================
-   About us
+   About Us
 ===================== */
 
 .about {
 	background: #000;
 	padding: 96px 0;
-
 	color: #dedede;
 
 	&__inner {
@@ -288,7 +376,7 @@ body {
 
 	&__title {
 		font-weight: 700;
-		font-size: 128px;
+		font-size: clamp(72px, 10vw, 128px);
 		line-height: 1;
 		letter-spacing: -4px;
 		margin-bottom: 48px;
@@ -300,14 +388,19 @@ body {
 
 	&__content {
 		display: grid;
-		grid-template-columns: 572px 655px;
+		grid-template-columns: 572px 1fr;
 		gap: 80px;
 		align-items: start;
+
+		@include desktop-sm {
+			grid-template-columns: 1fr;
+			gap: 48px;
+		}
 	}
 
 	&__text {
 		font-size: 18px;
-		line-height: 26.5px;
+		line-height: 1.5;
 
 		p {
 			margin-bottom: 18px;
@@ -322,46 +415,39 @@ body {
 		color: var(--gold);
 	}
 
+	/* Timeline Badge (Square container fixes) */
 	.timeline-badge {
 		position: relative;
 		width: 100%;
+		max-width: 600px;
+		/* Ограничитель ширины */
 		aspect-ratio: 1 / 1;
-
+		margin: 0 auto;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 
-		/* ===== Outer circle ===== */
 		&__outer {
 			width: 100%;
 			height: 100%;
 			border-radius: 50%;
-
-			background: linear-gradient(135deg,
-				rgba(234, 179, 8, 0.2),
-				rgba(202, 138, 4, 0.1)
-			);
-
+			background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(202, 138, 4, 0.1));
 			display: flex;
 			align-items: center;
 			justify-content: center;
 		}
 
-		/* ===== Inner circle ===== */
 		&__inner {
 			width: 75%;
 			height: 75%;
 			border-radius: 50%;
-
 			background: rgba(234, 179, 8, 0.1);
 			border: 1px solid rgba(234, 179, 8, 0.3);
-
 			display: flex;
 			align-items: center;
 			justify-content: center;
 		}
 
-		/* ===== Content ===== */
 		&__content {
 			text-align: center;
 		}
@@ -371,6 +457,7 @@ body {
 			font-weight: 300;
 			color: #facc15;
 			margin-bottom: 1rem;
+			line-height: 1;
 		}
 
 		&__label {
@@ -378,18 +465,17 @@ body {
 			color: rgba(250, 204, 21, 0.8);
 		}
 
-		/* ===== Small milestone badge ===== */
 		&__milestone {
 			position: absolute;
-			bottom: -32px;
-			right: -32px;
-
+			bottom: 0;
+			right: 0;
+			transform: translate(-20%, -20%);
+			/* Лучшее позиционирование */
 			width: 96px;
 			height: 96px;
 			border-radius: 50%;
-
 			background: rgba(234, 179, 8, 0.2);
-
+			backdrop-filter: blur(5px);
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -403,47 +489,266 @@ body {
 	}
 }
 
-/* Responsive — аккуратно, без поломки */
-@media (max-width: 1100px) {
-	.about {
-		&__title {
-			font-size: 72px;
-		}
+/* =====================
+   Products
+===================== */
 
-		&__content {
+.products {
+	background: #000;
+	color: #fff;
+	padding: 120px 0 140px;
+
+	&__title {
+		font-weight: 700;
+		font-size: clamp(64px, 10vw, 128px);
+		text-align: center;
+		line-height: 1;
+		letter-spacing: -4px;
+		margin-bottom: 48px;
+
+		span {
+			color: var(--gold);
+		}
+	}
+
+	&__subtitle {
+		font-size: 18px;
+		text-align: center;
+		color: #DEDEDE;
+		margin: auto auto 64px auto;
+		max-width: 600px;
+	}
+
+	&__content {
+		display: grid;
+		grid-template-columns: minmax(300px, 640px) 1fr;
+		gap: 96px;
+		align-items: start;
+
+		@include desktop-sm {
 			grid-template-columns: 1fr;
 			gap: 48px;
 		}
+	}
 
-		&__media img {
-			height: auto;
-			aspect-ratio: 3 / 4;
+	/* Left Side: Slider */
+	&__left {
+		position: relative;
+	}
+
+	.products-swiper {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		background: #111;
+		border-radius: 24px;
+		overflow: hidden;
+
+		.swiper-slide {
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+	}
+
+	&__nav {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 2;
+
+		.prev {
+			left: 16px;
+		}
+
+		.next {
+			right: 16px;
+		}
+
+		.slider-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			pointer-events: all;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			background: rgb(0, 0, 0);
+			border: 1px solid rgba(255, 255, 255, 0.25);
+			cursor: pointer;
+			transition: background 0.25s ease, transform 0.15s ease;
+
+			&:hover {
+				border-color: var(--gold);
+			}
+
+			&:disabled {
+				opacity: 0.4;
+				cursor: default;
+			}
+		}
+
+		.slider-icon {
+			width: 24px;
+			height: 24px;
+			stroke: #fff;
+			stroke-width: 2;
+			fill: none;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			transition: transform 0.2s ease;
+		}
+
+		.slider-btn.prev:hover .slider-icon {
+			transform: translateX(-2px);
+		}
+
+		.slider-btn.next:hover .slider-icon {
+			transform: translateX(2px);
+		}
+
+	}
+
+	/* Right Side: Info */
+	&__right {
+		position: relative;
 	}
 }
 
+/* =========================
+   Product Info
+========================= */
 
+.product-info {
+	display: none;
+	max-width: 800px;
+	animation: fadeIn 0.5s ease;
 
-/* =====================
-   Responsive
-===================== */
+	&.is-active {
+		display: block;
+	}
 
-@media (max-width: 980px) {
-	.site-header {
-		&__nav {
-			display: none;
+	h3 {
+		font-size: clamp(48px, 6vw, 72px);
+		font-weight: 600;
+		line-height: 1.1;
+		margin-bottom: 16px;
+	}
+
+	.subtitle {
+		font-size: 16px;
+		color: var(--gold);
+		margin-bottom: 36px;
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+
+		span {
+			background: rgba(79, 64, 36, 0.4);
+			border: solid 1px #C6A059;
+			border-radius: 20px;
+			padding: 0.5rem 2rem;
+			min-width: 140px;
+			text-align: center;
+			box-sizing: border-box;
+
+			&:hover {
+				background: rgba(198, 160, 89, 0.2);
+				cursor: default;
+			}
 		}
 	}
 
-	.hero {
-		padding-top: 36px;
+	.desc {
+		font-size: 18px;
+		line-height: 1.5;
+		color: rgba(255, 255, 255, 0.75);
+		margin-bottom: 32px;
+	}
 
-		&__inner {
-			grid-template-columns: 1fr;
+	.price {
+		font-size: 32px;
+		color: var(--gold);
+		margin: 24px 0;
+		font-weight: 700;
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ===============================
+   Order Form
+=============================== */
+
+.order-form {
+	margin-top: 32px;
+	padding: 24px;
+	border-radius: 16px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+	border: 1px solid rgba(255, 255, 255, 0.08);
+
+	&__title {
+		font-size: 18px;
+		margin-bottom: 16px;
+		font-weight: 300;
+	}
+
+	input {
+		width: 100%;
+		height: 44px;
+		margin-bottom: 12px;
+		padding: 0 14px;
+		background: #0e0e0e;
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 8px;
+		color: #fff;
+		outline: none;
+		transition: border-color var(--transition);
+		box-sizing: border-box;
+
+		&:focus {
+			border-color: var(--gold);
+		}
+	}
+
+	button {
+		width: 100%;
+		height: 48px;
+		margin-top: 12px;
+		border-radius: 12px;
+		background: var(--gold);
+		color: #000;
+		font-family: "Lora", serif;
+		font-size: 16px;
+		font-weight: 600;
+		border: none;
+		cursor: pointer;
+
+		&:hover {
+			filter: brightness(1.1);
+			transform: translateY(-1px);
 		}
 
-		&__media {
-			order: -1;
+		&:active {
+			transform: translateY(0);
 		}
 	}
 }

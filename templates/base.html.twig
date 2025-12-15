@@ -4,7 +4,27 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Atine</title>
-		<link rel="icon" href="{{ asset('media/favicon.ico') }}" type="image/x-icon">
+		<!-- Основной favicon -->
+		<link rel="icon" href="{{ asset('media/favicon/favicon.ico') }}" sizes="any">
+
+		<!-- PNG favicon -->
+		<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('media/favicon/favicon-16x16.png') }}">
+		<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('media/favicon/favicon-32x32.png') }}">
+
+		<!-- Apple Touch Icon -->
+		<link
+		rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicon/apple-touch-icon.png') }}">
+
+		<!-- Android / Chrome -->
+		<link rel="icon" type="image/png" sizes="192x192" href="{{ asset('media/favicon/android-chrome-192x192.png') }}">
+		<link rel="icon" type="image/png" sizes="512x512" href="{{ asset('media/favicon/android-chrome-512x512.png') }}">
+
+		<!-- Web App Manifest -->
+		<link rel="manifest" href="{{ asset('media/favicon/site.webmanifest') }}">
+
+		<!-- Цвет интерфейса браузера (Android, Chrome, Edge) -->
+		<meta name="theme-color" content="#0f172a">
+
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@600;700&family=Inter:wght@300;400;600;800&family=Lora:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">

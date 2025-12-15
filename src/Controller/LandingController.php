@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\ProductsRepository;
 
 final class LandingController extends AbstractController
 {
@@ -15,8 +16,10 @@ final class LandingController extends AbstractController
 		defaults: ['_locale' => 'ua'],
 		methods: ['GET']
 	)]
-	public function index(): Response
+	public function index(ProductsRepository $productsRepository): Response
 	{
-		return $this->render('landing/home.html.twig');
+		return $this->render('landing/home.html.twig', [
+			'products' => $productsRepository->findForSlider()
+		]);
 	}
 }
