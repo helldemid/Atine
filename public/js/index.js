@@ -44,4 +44,36 @@ document.addEventListener('DOMContentLoaded', function () {
 	productsSwiper.on('slideChange', () => {
 		setActiveProduct(productsSwiper.activeIndex);
 	});
+
+	const mediaSwiper = document.querySelector('.media-swiper');
+	if (!mediaSwiper || typeof Swiper === 'undefined') return;
+
+	const mediaSwiperInstance = new Swiper(mediaSwiper, {
+		slidesPerView: 1,
+		speed: 600,
+		navigation: {
+			nextEl: '.media__nav .next',
+			prevEl: '.media__nav .prev',
+		},
+		pagination: {
+			el: '.media__pagination',
+			clickable: true,
+		},
+	});
+
+	document.querySelectorAll('.media-video').forEach(video => {
+		video.addEventListener('click', () => {
+			const id = video.dataset.videoId;
+
+			video.innerHTML = `
+				<iframe
+					src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0"
+					frameborder="0"
+					allow="autoplay; encrypted-media"
+					allowfullscreen
+				></iframe>
+			`;
+		});
+	});
+
 });

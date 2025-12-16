@@ -1,0 +1,61 @@
+<section class="media" id="media">
+	<div class="container media__inner">
+
+		<div class="media__header">
+			<div class="media__icon"><img src="{{ asset('media/icons/Play.svg') }}" alt="Media Icon"></div>
+
+			<h2 class="media__title">
+				<span>ATINE</span>
+				МЕДІА
+			</h2>
+
+			<p class="media__lead">
+				Дізнайтесь, як традиційна фітотерапія та сучасні
+												фармацевтичні стандарти поєдналися, щоб підтримати
+												організм під час лікування й відновлення.
+			</p>
+		</div>
+
+		<div class="media__slider">
+
+			<div class="swiper media-swiper">
+				<div
+					class="swiper-wrapper">
+
+					{# videoId = YouTube ID #}
+					{% set videos = [
+						'9JWolXlQdiE',
+						'CZWXpxt7Oak',
+					] %}
+
+					{% for video in videos %}
+						<div class="swiper-slide">
+							<div class="media-video" data-video-id="{{ video }}">
+								<img src="https://img.youtube.com/vi/{{ video }}/hqdefault.jpg" alt="ATINE video">
+								<button class="media-video__play"></button>
+							</div>
+						</div>
+					{% endfor %}
+
+				</div>
+
+				<div class="media__nav">
+					<button class="slider-btn prev" aria-label="Previous">
+						<svg class="slider-icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="m15 18-6-6 6-6"></path>
+						</svg>
+					</button>
+					<button class="slider-btn next" aria-label="Next">
+						<svg class="slider-icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="m9 18 6-6-6-6"></path>
+						</svg>
+					</button>
+				</div>
+
+				<div class="media__pagination"></div>
+			</div>
+
+		</div>
+
+	</div>
+</section>
