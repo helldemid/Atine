@@ -73,6 +73,99 @@ button {
 	margin-inline: auto;
 }
 
+.explore-btn {
+	--btn-bg: #0e1217;
+	--btn-text: #ffffff;
+	--circle-bg: #ffffff;
+	--circle-border: transparent;
+	--arrow-color: #000000;
+	--hover-scale: 1.05;
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 15px;
+
+	background-color: var(--btn-bg);
+	color: var(--btn-text);
+
+	padding: 8px 8px 8px 24px;
+	border-radius: 100px;
+	border: 1px solid transparent; // Резерв под рамку
+	cursor: pointer;
+	text-decoration: none;
+	transition: all 0.3s ease;
+
+	// Текст
+	.btn-text {
+		letter-spacing: 0.05em;
+	}
+
+	// Круг
+	.icon-circle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+
+		background-color: var(--circle-bg);
+		border: 1px solid var(--circle-border);
+		color: var(--arrow-color);
+
+		border-radius: 50%;
+		transition: transform 0.3s ease;
+	}
+
+	// Стрелка
+	.arrow-icon {
+		width: 16px;
+		height: 16px;
+		fill: none;
+		stroke: currentColor; // Берет цвет из .icon-circle
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	// === 3. HOVER ЭФФЕКТЫ (УНИВЕРСАЛЬНЫЕ) ===
+	&:hover {
+		.arrow-icon {
+			transform: rotate(45deg);
+		}
+
+		.icon-circle {
+			transform: scale(1.1);
+		}
+	}
+
+	&.theme-gold {
+		--btn-bg: var(--gold);
+		--btn-text: black;
+		--circle-bg: transparent;
+		--circle-border: black;
+		--arrow-color: black;
+	}
+
+	// Пример 3: Прозрачная (Outline)
+	&.theme-outline-gold {
+		--btn-bg: transparent;
+		--btn-text: var(--gold);
+		--circle-bg: transparent;
+		--circle-border: var(--gold);
+		--arrow-color: var(--gold);
+		border-color: var(--gold);
+
+		&:hover {
+			--btn-bg: var(--gold);
+			--btn-text: black;
+			--circle-bg: black;
+			--circle-border: transparent;
+		}
+	}
+}
+
 /* =====================
    Header
 ===================== */
@@ -143,30 +236,11 @@ button {
 	}
 
 	&__cta {
-		display: inline-flex;
-		align-items: center;
 		gap: 12px;
 		height: 36px;
 		padding: 0 14px 0 18px;
-		border: 1px solid var(--gold);
-		border-radius: 42px;
-		color: var(--gold);
 		text-decoration: none;
 		font-size: 14px;
-		letter-spacing: 1.5px;
-
-		&-icon {
-			width: 38px;
-			height: 34px;
-			display: block;
-			fill: currentColor;
-			/* Иконка красится вместе с текстом */
-		}
-
-		&:hover {
-			background: var(--gold);
-			color: var(--black);
-		}
 	}
 }
 
@@ -252,28 +326,12 @@ button {
 	}
 
 	&__btn {
-		margin-top: 18px;
-		display: inline-flex;
-		align-items: center;
-		gap: 14px;
-		height: 48px;
-		padding: 0 16px 0 26px;
-		background: var(--black);
-		color: #fff;
-		border: 1px solid var(--black);
-		border-radius: 42px;
-		text-decoration: none;
-		font-size: 14px;
-		letter-spacing: 1.5px;
+		margin-top: 28px;
+		gap: 28px;
 
-		&-icon {
-			width: 38px;
-			height: 34px;
-		}
-
-		&:hover {
-			background: transparent;
-			color: var(--black);
+		.btn-text {
+			font-size: 14px;
+			letter-spacing: 1.5px;
 		}
 	}
 }
@@ -925,7 +983,7 @@ button {
 
 	&__years-text {
 		font-size: 36px;
-		color: rgba(255,255,255,.8);
+		color: rgba(255, 255, 255, .8);
 	}
 
 	/* ---------- Text ---------- */
@@ -935,7 +993,7 @@ button {
 		margin: 0 auto 48px;
 		font-size: 18px;
 		line-height: 26px;
-		color: rgba(255,255,255,.7);
+		color: rgba(255, 255, 255, .7);
 	}
 
 	&__subtitle {
@@ -950,7 +1008,7 @@ button {
 		margin: 0 auto 64px;
 		font-size: 18px;
 		line-height: 24px;
-		color: rgba(255,255,255,.6);
+		color: rgba(255, 255, 255, .6);
 	}
 
 	/* ---------- Cards ---------- */
@@ -966,26 +1024,70 @@ button {
    Science card
 ========================= */
 
+/* =====================
+   Science Card
+===================== */
+
 .science-card {
 	background: #1A1A1A;
-	border-radius: 15%;
+	/* Используем px или rem для радиуса, % может выглядеть странно при изменении высоты */
+	border-radius: 32px;
 	padding: 48px 28px;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
+	/* Интерактивность контейнера */
+	position: relative;
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	/* Едва заметная рамка */
+	transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+		box-shadow 0.4s ease,
+		border-color 0.3s ease;
+	cursor: default;
+
+	/* Эффекты при наведении на саму карточку */
+	&:hover {
+		transform: translateY(-10px);
+		/* Подъем вверх */
+		box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+		/* Глубокая тень */
+		border-color: rgba(198, 160, 89, 0.3);
+		/* Рамка подсвечивается золотом */
+
+		/* Обращаемся к дочернему элементу .science-card__icon при ховере на родителя */
+		.science-card__icon {
+			color: #000;
+			/* Иконка становится черной на золотом фоне */
+			transform: scale(1.1) rotate(5deg);
+		}
+
+		/* Кнопка/ссылка тоже может реагировать */
+		a {
+			color: var(--gold);
+
+			&::after {
+				width: 100%;
+			}
+		}
+	}
+
 	&__icon {
 		width: 64px;
 		height: 64px;
 		border-radius: 50%;
-		background: rgba(198,160,89,.15);
+		background: rgba(198, 160, 89, 0.15);
 		color: var(--gold);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 18px;
-		margin-bottom: 20px;
+		font-size: 24px;
+		/* Чуть увеличил иконку */
+		margin-bottom: 24px;
+
+		/* Плавность изменения иконки */
+		transition: all 0.3s ease;
 	}
 
 	h4 {
@@ -993,6 +1095,7 @@ button {
 		margin-bottom: 12px;
 		font-weight: 600;
 		color: var(--gold);
+		line-height: 1.2;
 	}
 
 	h5 {
@@ -1003,16 +1106,46 @@ button {
 	}
 
 	p {
-		font-size: 14px;
-		line-height: 22px;
-		color: rgba(255,255,255,.7);
-		margin-bottom: 16px;
+		font-size: 15px;
+		/* 14px иногда мелковато на темном фоне */
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.7);
+		margin-bottom: 24px;
+		flex-grow: 1;
+		/* Чтобы кнопки всегда были внизу, если текст разной длины */
 	}
 
 	a {
 		font-size: 14px;
+		font-weight: 600;
 		color: #fff;
-		text-decoration: underline;
+		text-decoration: none;
+		/* Убираем стандартное подчеркивание */
+		position: relative;
+		padding-bottom: 4px;
+		transition: color 0.3s ease;
+		letter-spacing: 0.5px;
+
+		/* Анимированное подчеркивание */
+		&::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 0;
+			height: 1px;
+			background: var(--gold);
+			transition: width 0.3s ease;
+		}
+
+		/* При наведении только на ссылку (если не сработал ховер карты) */
+		&:hover {
+			color: var(--gold);
+
+			&::after {
+				width: 100%;
+			}
+		}
 	}
 }
 
@@ -1048,7 +1181,7 @@ button {
 		height: 64px;
 		margin: 0 auto 32px;
 		border-radius: 50%;
-		background: rgba(198,160,89,.25);
+		background: rgba(198, 160, 89, .25);
 		color: var(--gold);
 		font-size: 32px;
 		display: flex;
@@ -1063,7 +1196,9 @@ button {
 		letter-spacing: -4px;
 		margin-bottom: 48px;
 
-		.gold { color: var(--gold); }
+		.gold {
+			color: var(--gold);
+		}
 	}
 
 	&__lead {
@@ -1105,7 +1240,7 @@ button {
 		width: 64px;
 		height: 64px;
 		border-radius: 50%;
-		background: rgba(198,160,89,.25);
+		background: rgba(198, 160, 89, .25);
 		color: var(--gold);
 		font-size: 24px;
 		display: flex;
@@ -1157,5 +1292,136 @@ button {
 		&__title {
 			font-size: 56px;
 		}
+	}
+}
+
+/* =====================
+   E-book Section
+===================== */
+
+.ebook {
+	background: #000;
+	color: #fff;
+	padding: clamp(80px, 10vw, 160px) 0;
+	overflow: hidden;
+	/* Чтобы тени или вращения не вызывали скролл */
+
+	&__inner {
+		display: grid;
+		/* Левая колонка занимает все место, правая (контент) фиксирована, но адаптивна */
+		grid-template-columns: 1fr minmax(300px, 560px);
+		gap: clamp(64px, 8vw, 120px);
+		align-items: center;
+		position: relative;
+
+		@include desktop-sm {
+			grid-template-columns: 1fr;
+			gap: 64px;
+			text-align: center;
+			/* Центрируем текст на планшете */
+		}
+	}
+
+	/* ---------- Visual (Left) ---------- */
+
+	&__visual {
+		position: relative;
+		display: flex;
+		justify-content: center;
+
+		/* Интерактив: при наведении на всю область визуализации книги "оживают" */
+		img {
+			/* Адаптивная ширина книг */
+			border-radius: 12px;
+			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+			transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
+			will-change: transform;
+			z-index: 2;
+		}
+
+		&:hover {
+			.ebook__badge {
+				transform: scale(1.1) rotate(15deg);
+				border-color: #fff;
+			}
+		}
+	}
+
+	&__badge {
+		position: absolute;
+		right: -4%;
+		/* Относительное позиционирование */
+		bottom: 15%;
+		z-index: 3;
+
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		border: 2px solid var(--gold);
+		background: rgba(0, 0, 0, 0.6);
+		backdrop-filter: blur(8px);
+		/* Стекломорфизм */
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+
+		font-size: 14px;
+		color: var(--gold);
+		letter-spacing: 0.5px;
+
+		transition: all 0.4s ease;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+		@include tablet {
+			right: 0;
+			bottom: -20px;
+		}
+	}
+
+	/* ---------- Content (Right) ---------- */
+
+	&__content {
+		@include desktop-sm {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+	}
+
+	&__overline {
+		display: block;
+		font-size: 14px;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		color: var(--gold);
+		margin-bottom: 16px;
+		font-weight: 500;
+	}
+
+	&__title {
+		font-size: clamp(42px, 5vw, 72px);
+		font-weight: 600;
+		line-height: 1.05;
+		margin-bottom: 32px;
+
+		span {
+			font-family: "Hepta Slab", serif;
+		}
+	}
+
+	&__desc {
+		font-size: 16px;
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.75);
+		margin-bottom: 40px;
+	}
+
+	/* ---------- Form ---------- */
+
+	&__get_btn {
+		font-size: 18px;
+		font-weight: 600;
+		white-space: nowrap;
 	}
 }

@@ -1,0 +1,38 @@
+<section class="ebook" id="ebook">
+	<div class="container ebook__inner">
+
+		<div class="ebook__visual">
+			<img src="{{ asset('/media/eBook.webp') }}" alt="ATINE ebook">
+
+			<div class="ebook__badge">
+				<span>Науковий<br>вибір</span>
+			</div>
+		</div>
+
+		<div class="ebook__content">
+			<span class="ebook__overline">Отримайте безкоштовно</span>
+
+			<h2 class="ebook__title">
+				<span>ATINE</span><br>
+				Посібник
+			</h2>
+
+			<p class="ebook__desc">
+				Дізнайтесь про науковий підхід до фітотерапії та традиційної медицини. Наш комплексний посібник розкриває секрети українських лікарських рослин,
+				найкращі практики оздоровлення та клінічні докази ефективності ATINE.
+				Напишіть свій Email та отримайте доступ до ексклюзивного контенту, який змінить ваше розуміння здоров'я.
+			</p>
+
+			<button class="ebook__get_btn explore-btn theme-gold" type="button" id="getEbookBtn" data-modal-title="Незабаром доступно" data-modal-text="Ми фіналізуємо eBook і зовсім скоро відкриємо до нього доступ. Залишайтеся з нами, щоб не пропустити запуск." onClick="AlertService.info(this.dataset.modalText, this.dataset.modalTitle)">
+				<span class="btn-text">Отримати</span>
+				<div class="icon-circle">
+					<svg class="arrow-icon" viewbox="0 0 24 24">
+						<line x1="5" y1="12" x2="19" y2="12"></line>
+						<polyline points="12 5 19 12 12 19"></polyline>
+					</svg>
+				</div>
+			</button>
+		</div>
+
+	</div>
+</section>
