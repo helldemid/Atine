@@ -76,4 +76,16 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	});
 
+	document.querySelectorAll('.faq-item__header').forEach(btn => {
+		btn.addEventListener('click', () => {
+			const item = btn.closest('.faq-item');
+
+			document.querySelectorAll('.faq-item').forEach(i => {
+				if (i !== item) i.classList.remove('is-open');
+			});
+
+			item.classList.toggle('is-open');
+		});
+	});
+
 });
