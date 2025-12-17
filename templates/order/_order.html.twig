@@ -1,0 +1,89 @@
+<section class="order" id="order">
+	<div class="container order__inner">
+
+		<h2 class="order__title">
+			<span class="gold">Замовляй</span>
+			зараз
+		</h2>
+
+		<p class="order__lead">
+			Зробіть крок до підтримки свого організму
+		</p>
+
+		<div
+			class="order__grid">
+
+			<!-- LEFT -->
+			<div class="order__info">
+
+				<h3 class="order__info-title">Контактна інформація</h3>
+
+				<p class="order__info-text">
+					Залиште заявку — ми звʼяжемось з вами, надамо детальну
+					інформацію про ATINE, допоможемо обрати форму та
+					орієнтовний курс, який ви узгодите зі своїм лікарем.
+				</p>
+
+				<div class="order__contact">
+					<div class="order__contact-icon">
+						<img src="{{ asset('media/icons/email.svg') }}" alt="Email icon">
+					</div>
+					<div>
+						<strong>Email</strong>
+						<a href="mailto:hello@atine.com">hello@atine.com</a><br>
+						<a href="mailto:support@atine.com">support@atine.com</a>
+					</div>
+				</div>
+
+				<div class="order__contact">
+					<div class="order__contact-icon">
+						<img src="{{ asset('media/icons/phone.svg') }}" alt="Phone icon">
+					</div>
+					<div>
+						<strong>Контакти</strong>
+						<a href="tel:+380662435261">+38 (066) 24-35-261</a><br>
+						<span>Пн–Пт, 9:00–18:00</span>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- RIGHT -->
+			<div class="order__form">
+
+				<h3 class="order__form-title">
+					Оформіть замовлення<br>вже зараз
+				</h3>
+
+				<p class="order__form-text">
+					Дбайте про своє здоровʼя та самопочуття разом з ATINE
+				</p>
+
+				<form method="post" action="/order">
+					<input type="text" name="name" placeholder="Введіть імʼя..." required autocomplete ="name">
+					<input type="email" name="email" placeholder="Введіть пошту..." required autocomplete="email">
+					<input type="tel" name="phone" placeholder="Введіть номер телефону..." required autocomplete="tel">
+
+					<select name="product" required>
+						<option value="-1">Оберіть товар...</option>
+						{% for product in products %}
+							<option value="{{ product.id }}">{{ product.name }} | ₴{{ product.price }}</option>
+						{% endfor %}
+					</select>
+
+					<button type="submit">
+						Замовити
+					</button>
+				</form>
+
+				<p class="order__privacy">
+					Заповнюючи форму, ви погоджуєтеся на обробку та зберігання
+					персональних даних відповідно до політики Atine.
+				</p>
+
+			</div>
+
+		</div>
+
+	</div>
+</section>
