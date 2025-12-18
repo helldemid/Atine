@@ -3,27 +3,33 @@
    Variables & Config
 ===================== */
 :root {
-  /* Оригинальные переменные */
+  /* Palette */
   --bg: #f7f7fb;
   --black: #000;
   --text: #0a0a0a;
   --muted: #727276;
   --gold: #c6a059;
   --yellow: #ffd700;
+  /* Layout */
   --container: 1200px;
   --px: clamp(20px, 6vw, 123px);
-  /* Дополнительные служебные переменные */
   --header-height: 80px;
+  /* Effects */
   --transition: 0.3s ease;
+  --shadow-soft: 0 16px 32px rgba(0, 0, 0, 0.05);
+  --shadow-deep: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
-/* Миксины для адаптива (чтобы не дублировать код) */
+/* =====================
+   Mixins & Utilities
+===================== */
 /* =====================
    Base & Reset
 ===================== */
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -47,9 +53,10 @@ img {
 }
 
 a,
-button {
+button,
+input,
+select {
   transition: var(--transition);
-  /* Плавность везде */
 }
 
 .container {
@@ -58,6 +65,9 @@ button {
   margin-inline: auto;
 }
 
+/* =====================
+   Components: Buttons
+===================== */
 .explore-btn {
   --btn-bg: #0e1217;
   --btn-text: #ffffff;
@@ -76,7 +86,6 @@ button {
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s ease;
 }
 .explore-btn .btn-text {
   letter-spacing: 0.05em;
@@ -141,7 +150,6 @@ button {
   height: var(--header-height);
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
-  /* Стекломорфизм */
   display: flex;
   align-items: center;
 }
@@ -159,6 +167,7 @@ button {
 }
 .site-header__nav {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 32px;
 }
@@ -175,7 +184,6 @@ button {
   text-decoration: none;
   white-space: nowrap;
   position: relative;
-  /* Эффект подчеркивания при наведении */
 }
 .site-header__nav a::after {
   content: "";
@@ -222,13 +230,13 @@ button {
 }
 @media (max-width: 980px) {
   .hero__inner {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
 }
 @media (max-width: 980px) {
   .hero__media {
     order: -1;
-    /* Картинка сверху на мобильных */
     justify-self: center;
   }
 }
@@ -236,7 +244,6 @@ button {
   margin: 0 0 12px;
   font-family: "Hepta Slab", serif;
   font-weight: 700;
-  /* clamp для плавного изменения размера шрифта */
   font-size: clamp(64px, 8.5vw, 138px);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -260,7 +267,6 @@ button {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   border-radius: 4px;
-  /* Небольшое скругление */
 }
 .hero__desc {
   font-size: 18px;
@@ -286,12 +292,36 @@ button {
 /* =====================
    Hero Swiper
 ===================== */
+.hero-swiper {
+  position: relative !important;
+  width: 100%;
+}
+.hero-swiper .swiper-slide {
+  position: relative !important;
+  width: 100% !important;
+  /* Например, портретный или квадратный формат для героя */
+  aspect-ratio: 4/5 !important;
+  border-radius: 12px;
+  overflow: hidden;
+  /* Обрезаем картинку по краям */
+  /* Адаптив пропорций */
+}
+@media (max-width: 980px) {
+  .hero-swiper .swiper-slide {
+    aspect-ratio: 16/9;
+  }
+}
 .hero-swiper img {
+  /* 2. Fix "Infinite Layout Loop" (как в products) */
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-  /* Эстетическое улучшение */
+  display: block;
+}
+.hero-swiper {
+  /* === Pagination === */
 }
 .hero-swiper .swiper-pagination {
   position: relative;
@@ -299,6 +329,14 @@ button {
   display: flex;
   justify-content: center;
   gap: 32px;
+  /* Адаптив отступов для мобильных */
+}
+@media (max-width: 600px) {
+  .hero-swiper .swiper-pagination {
+    gap: 12px;
+    flex-wrap: wrap;
+    /* Если точек много, переносим */
+  }
 }
 .hero-swiper .swiper-pagination-bullet {
   width: 100px;
@@ -307,10 +345,20 @@ button {
   background: var(--muted);
   opacity: 1;
   cursor: pointer;
-  transition: background var(--transition);
+  transition: background var(--transition), width 0.3s ease;
 }
 .hero-swiper .swiper-pagination-bullet-active, .hero-swiper .swiper-pagination-bullet:hover {
   background: var(--text);
+}
+.hero-swiper .swiper-pagination-bullet {
+  /* 3. Адаптив для буллетов */
+  /* На мобильных 100px слишком много (3 точки = 300px + отступы > 320px) */
+}
+@media (max-width: 600px) {
+  .hero-swiper .swiper-pagination-bullet {
+    width: 40px;
+    height: 6px;
+  }
 }
 
 /* =====================
@@ -338,7 +386,6 @@ button {
   letter-spacing: 1px;
   color: var(--black);
   will-change: transform;
-  /* Оптимизация анимации */
   animation: ticker 28s linear infinite;
 }
 .ticker__sep {
@@ -366,13 +413,24 @@ button {
 }
 .about__title {
   font-weight: 700;
-  font-size: clamp(72px, 10vw, 128px);
+  font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
-  letter-spacing: -4px;
+  letter-spacing: -0.03em;
   margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .about__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
 }
 .about__title span {
   color: var(--gold);
+}
+.about__title .gold {
+  color: var(--gold);
+}
+.about__title .dark {
+  color: var(--black);
 }
 .about__content {
   display: grid;
@@ -399,14 +457,10 @@ button {
 .about__accent {
   color: var(--gold);
 }
-.about {
-  /* Timeline Badge (Square container fixes) */
-}
 .about .timeline-badge {
   position: relative;
   width: 100%;
   max-width: 600px;
-  /* Ограничитель ширины */
   aspect-ratio: 1/1;
   margin: 0 auto;
   display: flex;
@@ -451,7 +505,6 @@ button {
   bottom: 0;
   right: 0;
   transform: translate(-20%, -20%);
-  /* Лучшее позиционирование */
   width: 96px;
   height: 96px;
   border-radius: 50%;
@@ -477,14 +530,27 @@ button {
 }
 .products__title {
   font-weight: 700;
-  font-size: clamp(64px, 10vw, 128px);
-  text-align: center;
+  font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
-  letter-spacing: -4px;
+  letter-spacing: -0.03em;
   margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .products__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
 }
 .products__title span {
   color: var(--gold);
+}
+.products__title .gold {
+  color: var(--gold);
+}
+.products__title .dark {
+  color: var(--black);
+}
+.products__title {
+  text-align: center;
 }
 .products__subtitle {
   font-size: 18px;
@@ -505,9 +571,6 @@ button {
     gap: 48px;
   }
 }
-.products {
-  /* Left Side: Slider */
-}
 .products__left {
   position: relative;
 }
@@ -517,16 +580,20 @@ button {
   background: #111;
   border-radius: 24px;
   overflow: hidden;
+  position: relative;
 }
 .products .products-swiper .swiper-slide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
 }
 .products .products-swiper img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 .products__nav {
   position: absolute;
@@ -541,7 +608,7 @@ button {
   right: 16px;
 }
 .products__nav .slider-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: all;
@@ -579,9 +646,6 @@ button {
 .products__nav .slider-btn.next:hover .slider-icon {
   transform: translateX(2px);
 }
-.products {
-  /* Right Side: Info */
-}
 .products__right {
   position: relative;
 }
@@ -618,7 +682,6 @@ button {
   padding: 0.5rem 2rem;
   min-width: 140px;
   text-align: center;
-  box-sizing: border-box;
 }
 .product-info .subtitle span:hover {
   background: rgba(198, 160, 89, 0.2);
@@ -648,7 +711,7 @@ button {
   }
 }
 /* ===============================
-   Order Form
+   Order Form (Inline)
 =============================== */
 .order-form {
   margin-top: 32px;
@@ -673,7 +736,6 @@ button {
   color: #fff;
   outline: none;
   transition: border-color var(--transition);
-  box-sizing: border-box;
 }
 .order-form input:focus {
   border-color: var(--gold);
@@ -720,10 +782,18 @@ button {
 }
 .how-works__title {
   font-weight: 700;
-  font-size: clamp(72px, 10vw, 128px);
+  font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
-  letter-spacing: -4px;
+  letter-spacing: -0.03em;
   margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .how-works__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
+}
+.how-works__title span {
+  color: var(--gold);
 }
 .how-works__title .gold {
   color: var(--gold);
@@ -753,10 +823,8 @@ button {
   width: 100%;
   height: auto;
   border-radius: 16px;
-  display: block;
   object-fit: cover;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.05);
-  /* Легкая тень для объема */
+  box-shadow: var(--shadow-soft);
 }
 
 /* =====================
@@ -766,13 +834,9 @@ button {
   display: flex;
   gap: 24px;
   margin-bottom: 32px;
-  /* Для последнего элемента убираем отступ */
 }
 .how-step:last-child {
   margin-bottom: 0;
-}
-.how-step {
-  /* Интерактив при наведении на весь блок */
 }
 .how-step:hover .how-step__num {
   background: var(--black);
@@ -791,18 +855,14 @@ button {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  /* Чтобы цифра не сжималась */
-  /* Анимация */
   transition: background 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .how-step__content {
-  /* Обертка для текста (если её нет в HTML, стили применятся к контексту flex) */
   flex: 1;
 }
 .how-step strong {
   display: block;
   font-size: 20px;
-  /* Чуть увеличил для читаемости */
   color: var(--text);
   margin-bottom: 8px;
 }
@@ -813,23 +873,36 @@ button {
   margin: 0;
 }
 
+/* =====================
+   Science Section
+===================== */
 .science {
   background: #000;
   color: #fff;
   padding: 140px 0;
 }
+@media (max-width: 980px) {
+  .science {
+    padding: 96px 0;
+  }
+}
 .science__inner {
   text-align: center;
 }
-.science {
-  /* ---------- Title ---------- */
-}
 .science__title {
   font-weight: 700;
-  font-size: clamp(72px, 10vw, 128px);
+  font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
-  letter-spacing: -4px;
+  letter-spacing: -0.03em;
   margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .science__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
+}
+.science__title span {
+  color: var(--gold);
 }
 .science__title .gold {
   color: var(--gold);
@@ -837,8 +910,8 @@ button {
 .science__title .dark {
   color: var(--black);
 }
-.science {
-  /* ---------- Metric ---------- */
+.science__title {
+  margin-bottom: 48px;
 }
 .science__metric {
   margin-bottom: 32px;
@@ -849,12 +922,14 @@ button {
   color: var(--gold);
   line-height: 1;
 }
+@media (max-width: 980px) {
+  .science__years {
+    font-size: 72px;
+  }
+}
 .science__years-text {
   font-size: 36px;
   color: rgba(255, 255, 255, 0.8);
-}
-.science {
-  /* ---------- Text ---------- */
 }
 .science__lead {
   max-width: 720px;
@@ -876,13 +951,15 @@ button {
   line-height: 24px;
   color: rgba(255, 255, 255, 0.6);
 }
-.science {
-  /* ---------- Cards ---------- */
-}
 .science__cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
+}
+@media (max-width: 980px) {
+  .science__cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* =========================
@@ -890,37 +967,25 @@ button {
 ========================= */
 .science-card {
   background: #1A1A1A;
-  /* Используем px или rem для радиуса, % может выглядеть странно при изменении высоты */
   border-radius: 32px;
   padding: 48px 28px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Интерактивность контейнера */
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  /* Едва заметная рамка */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.3s ease;
   cursor: default;
-  /* Эффекты при наведении на саму карточку */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.3s ease;
 }
 .science-card:hover {
   transform: translateY(-10px);
-  /* Подъем вверх */
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-  /* Глубокая тень */
+  box-shadow: var(--shadow-deep);
   border-color: rgba(198, 160, 89, 0.3);
-  /* Рамка подсвечивается золотом */
-  /* Обращаемся к дочернему элементу .science-card__icon при ховере на родителя */
 }
 .science-card:hover .science-card__icon {
   color: #000;
-  /* Иконка становится черной на золотом фоне */
   transform: scale(1.1) rotate(5deg);
-}
-.science-card:hover {
-  /* Кнопка/ссылка тоже может реагировать */
 }
 .science-card:hover a {
   color: var(--gold);
@@ -938,9 +1003,7 @@ button {
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  /* Чуть увеличил иконку */
   margin-bottom: 24px;
-  /* Плавность изменения иконки */
   transition: all 0.3s ease;
 }
 .science-card h4 {
@@ -958,24 +1021,19 @@ button {
 }
 .science-card p {
   font-size: 15px;
-  /* 14px иногда мелковато на темном фоне */
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 24px;
   flex-grow: 1;
-  /* Чтобы кнопки всегда были внизу, если текст разной длины */
 }
 .science-card a {
   font-size: 14px;
   font-weight: 600;
   color: #fff;
   text-decoration: none;
-  /* Убираем стандартное подчеркивание */
   position: relative;
   padding-bottom: 4px;
-  transition: color 0.3s ease;
   letter-spacing: 0.5px;
-  /* Анимированное подчеркивание */
 }
 .science-card a::after {
   content: "";
@@ -987,9 +1045,6 @@ button {
   background: var(--gold);
   transition: width 0.3s ease;
 }
-.science-card a {
-  /* При наведении только на ссылку (если не сработал ховер карты) */
-}
 .science-card a:hover {
   color: var(--gold);
 }
@@ -997,27 +1052,18 @@ button {
   width: 100%;
 }
 
-/* =========================
-   Responsive
-========================= */
-@media (max-width: 980px) {
-  .science {
-    padding: 96px 0;
-  }
-  .science__cards {
-    grid-template-columns: 1fr;
-  }
-  .science__title {
-    font-size: 56px;
-  }
-  .science__years {
-    font-size: 72px;
-  }
-}
+/* =====================
+   Comments Section
+===================== */
 .comments {
   background: #f7f7f9;
   padding: 140px 0;
   text-align: center;
+}
+@media (max-width: 980px) {
+  .comments {
+    padding: 96px 0;
+  }
 }
 .comments__icon {
   width: 64px;
@@ -1033,13 +1079,24 @@ button {
 }
 .comments__title {
   font-weight: 700;
-  font-size: clamp(72px, 10vw, 128px);
+  font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
-  letter-spacing: -4px;
+  letter-spacing: -0.03em;
   margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .comments__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
+}
+.comments__title span {
+  color: var(--gold);
 }
 .comments__title .gold {
   color: var(--gold);
+}
+.comments__title .dark {
+  color: var(--black);
 }
 .comments__lead {
   max-width: 70%;
@@ -1054,6 +1111,12 @@ button {
   gap: 48px;
   margin-bottom: 80px;
 }
+@media (max-width: 980px) {
+  .comments__list {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+}
 .comments__footer {
   display: flex;
   justify-content: center;
@@ -1064,7 +1127,7 @@ button {
 }
 
 /* =========================
-   Comment
+   Comment Item
 ========================= */
 .comment {
   text-align: left;
@@ -1105,21 +1168,6 @@ button {
   color: #727276;
 }
 
-/* =========================
-   Responsive
-========================= */
-@media (max-width: 980px) {
-  .comments {
-    padding: 96px 0;
-  }
-  .comments__list {
-    grid-template-columns: 1fr;
-    gap: 56px;
-  }
-  .comments__title {
-    font-size: 56px;
-  }
-}
 /* =====================
    E-book Section
 ===================== */
@@ -1128,11 +1176,9 @@ button {
   color: #fff;
   padding: clamp(80px, 10vw, 160px) 0;
   overflow: hidden;
-  /* Чтобы тени или вращения не вызывали скролл */
 }
 .ebook__inner {
   display: grid;
-  /* Левая колонка занимает все место, правая (контент) фиксирована, но адаптивна */
   grid-template-columns: 1fr minmax(300px, 560px);
   gap: clamp(64px, 8vw, 120px);
   align-items: center;
@@ -1143,20 +1189,14 @@ button {
     grid-template-columns: 1fr;
     gap: 64px;
     text-align: center;
-    /* Центрируем текст на планшете */
   }
-}
-.ebook {
-  /* ---------- Visual (Left) ---------- */
 }
 .ebook__visual {
   position: relative;
   display: flex;
   justify-content: center;
-  /* Интерактив: при наведении на всю область визуализации книги "оживают" */
 }
 .ebook__visual img {
-  /* Адаптивная ширина книг */
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
@@ -1170,7 +1210,6 @@ button {
 .ebook__badge {
   position: absolute;
   right: -4%;
-  /* Относительное позиционирование */
   bottom: 15%;
   z-index: 3;
   width: 100px;
@@ -1179,7 +1218,6 @@ button {
   border: 2px solid var(--gold);
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
-  /* Стекломорфизм */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1195,9 +1233,6 @@ button {
     right: 0;
     bottom: -20px;
   }
-}
-.ebook {
-  /* ---------- Content (Right) ---------- */
 }
 @media (max-width: 1100px) {
   .ebook__content {
@@ -1229,15 +1264,15 @@ button {
   color: rgba(255, 255, 255, 0.75);
   margin-bottom: 40px;
 }
-.ebook {
-  /* ---------- Form ---------- */
-}
 .ebook__get_btn {
   font-size: 18px;
   font-weight: 600;
   white-space: nowrap;
 }
 
+/* =====================
+   Media Section
+===================== */
 .media {
   background: #f7f7f9;
   padding: 140px 0;
@@ -1245,9 +1280,6 @@ button {
 .media__inner {
   max-width: 1100px;
   margin: 0 auto;
-}
-.media {
-  /* ---------- Header ---------- */
 }
 .media__header {
   text-align: center;
@@ -1266,13 +1298,27 @@ button {
 }
 .media__title {
   font-weight: 700;
-  font-size: clamp(72px, 10vw, 128px);
+  font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
-  letter-spacing: -4px;
-  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+  margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .media__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
 }
 .media__title span {
   color: var(--gold);
+}
+.media__title .gold {
+  color: var(--gold);
+}
+.media__title .dark {
+  color: var(--black);
+}
+.media__title {
+  margin-bottom: 24px;
 }
 .media__lead {
   max-width: 90%;
@@ -1280,9 +1326,6 @@ button {
   font-size: 30px;
   line-height: 40px;
   color: #727276;
-}
-.media {
-  /* ---------- Slider ---------- */
 }
 .media__slider {
   position: relative;
@@ -1297,9 +1340,6 @@ button {
   border-radius: 24px;
   overflow: hidden;
 }
-.media {
-  /* ---------- Navigation ---------- */
-}
 .media__nav {
   position: absolute;
   inset: 0;
@@ -1313,7 +1353,7 @@ button {
   right: -64px;
 }
 .media__nav .slider-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: all;
@@ -1371,7 +1411,7 @@ button {
 }
 
 /* =========================
-   Video
+   Video Component
 ========================= */
 .media-video {
   position: relative;
@@ -1417,28 +1457,49 @@ button {
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   transform: translate(-40%, -50%);
   border-left: 18px solid #fff;
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
 }
 
+/* =====================
+   FAQ
+===================== */
 .faq {
   background: #0A0A14;
   padding: 140px 0;
   color: #fff;
-  /* reused heading style */
+}
+@media (max-width: 980px) {
+  .faq {
+    padding: 96px 0;
+  }
 }
 .faq__title {
   font-weight: 700;
-  font-size: clamp(72px, 10vw, 128px);
+  font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
-  letter-spacing: -4px;
+  letter-spacing: -0.03em;
   margin-bottom: 48px;
-  text-align: center;
+}
+@media (max-width: 980px) {
+  .faq__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
+}
+.faq__title span {
+  color: var(--gold);
 }
 .faq__title .gold {
   color: var(--gold);
+}
+.faq__title .dark {
+  color: var(--black);
+}
+.faq__title {
+  text-align: center;
 }
 .faq__lead {
   max-width: 70%;
@@ -1457,7 +1518,7 @@ button {
 }
 
 /* =========================
-   FAQ item
+   FAQ Item
 ========================= */
 .faq-item {
   border-radius: 12px;
@@ -1506,17 +1567,6 @@ button {
 }
 
 /* =========================
-   Responsive
-========================= */
-@media (max-width: 980px) {
-  .faq {
-    padding: 96px 0;
-  }
-  .faq__title {
-    font-size: 56px;
-  }
-}
-/* =========================
    Order Section
 ========================= */
 .order {
@@ -1528,16 +1578,29 @@ button {
   font-size: clamp(48px, 8vw, 128px);
   line-height: 1;
   letter-spacing: -0.03em;
-  margin-bottom: clamp(32px, 5vw, 48px);
-  text-align: center;
+  margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .order__title {
+    font-size: clamp(42px, 10vw, 72px);
+  }
+}
+.order__title span {
+  color: var(--gold);
 }
 .order__title .gold {
   color: var(--gold);
 }
+.order__title .dark {
+  color: var(--black);
+}
+.order__title {
+  margin-bottom: clamp(32px, 5vw, 48px);
+  text-align: center;
+}
 .order__lead {
   width: 100%;
   max-width: 800px;
-  /* Ограничиваем ширину, но не процентами */
   margin: 0 auto clamp(48px, 8vw, 80px);
   font-family: "Lora", serif;
   font-size: clamp(18px, 3vw, 30px);
@@ -1552,17 +1615,12 @@ button {
   max-width: 1100px;
   margin: 0 auto;
   align-items: start;
-  /* Выравнивание по верху часто лучше для форм */
 }
 @media (max-width: 1100px) {
   .order__grid {
     grid-template-columns: 1fr;
     max-width: 600px;
-    /* Чтобы на планшете форма не была слишком широкой */
   }
-}
-.order {
-  /* ---------- Left Info ---------- */
 }
 .order__info-title {
   font-size: 30px;
@@ -1594,9 +1652,6 @@ button {
 .order__contact a:hover {
   text-decoration: underline;
 }
-.order__contact {
-  /* Интерактив при наведении на весь блок контактов */
-}
 .order__contact:hover .order__contact-icon {
   background: var(--gold);
   color: #000;
@@ -1618,7 +1673,6 @@ button {
 }
 .order__contact-icon {
   width: 56px;
-  /* Чуть крупнее для баланса */
   height: 56px;
   border-radius: 50%;
   background: rgba(198, 160, 89, 0.15);
@@ -1631,7 +1685,7 @@ button {
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .order {
-  /* ---------- Form ---------- */
+  /* Form Styles */
 }
 .order__form {
   background: #fff;
@@ -1639,7 +1693,6 @@ button {
   padding: clamp(24px, 5vw, 40px);
   border: 1px solid rgba(198, 160, 89, 0.3);
   box-shadow: 0 20px 40px -10px rgba(198, 160, 89, 0.15);
-  /* Тень для объема */
 }
 .order__form-title {
   font-size: 28px;
@@ -1660,13 +1713,11 @@ button {
 }
 .order form label {
   display: none;
-  /* Или можно стилизовать, если нужно */
 }
 .order form input,
 .order form select {
   width: 100%;
   height: 52px;
-  /* Увеличена высота для удобства тача */
   padding: 0 18px;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1674,10 +1725,7 @@ button {
   color: var(--black);
   background: #fdfdfd;
   outline: none;
-  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   appearance: none;
-  box-sizing: border-box;
-  /* Убирает нативные стили браузера */
 }
 .order form input::placeholder,
 .order form select::placeholder {
@@ -1688,9 +1736,6 @@ button {
   border-color: var(--gold);
   background: #fff;
   box-shadow: 0 0 0 4px rgba(198, 160, 89, 0.1);
-}
-.order form {
-  /* Стилизация select (стрелочка) */
 }
 .order form select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23727276' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -1731,6 +1776,115 @@ button {
 }
 .order__privacy a:hover {
   color: var(--gold);
+}
+
+/* =====================
+   Footer
+===================== */
+.footer {
+  background: #000;
+  color: #9a9a9a;
+  padding: 96px 0 48px;
+}
+@media (max-width: 980px) {
+  .footer {
+    padding: 64px 0 32px;
+  }
+}
+.footer__top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 48px;
+}
+@media (max-width: 980px) {
+  .footer__top {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.footer__logo img {
+  width: 48px;
+  height: 48px;
+}
+.footer__logo span {
+  font-family: "Hepta Slab", serif;
+  font-size: 30px;
+  color: #fff;
+}
+.footer__disclaimer {
+  font-size: 12px;
+  line-height: 22px;
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+.footer__socials {
+  display: flex;
+  gap: 16px;
+}
+.footer__socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #9a9a9a;
+  font-size: 12px;
+  text-decoration: none;
+}
+.footer__socials a:hover {
+  color: var(--gold);
+}
+.footer__col h4 {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.footer__col ul {
+  list-style: none;
+}
+.footer__col li {
+  margin-bottom: 10px;
+}
+.footer__col a {
+  font-size: 14px;
+  color: #9a9a9a;
+  text-decoration: none;
+}
+.footer__col a:hover {
+  color: #fff;
+}
+.footer__bottom {
+  border-top: 1px solid rgba(198, 160, 89, 0.4);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+@media (max-width: 980px) {
+  .footer__bottom {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
+.footer__legal {
+  display: flex;
+  gap: 24px;
+}
+.footer__legal a {
+  color: #9a9a9a;
+  text-decoration: none;
+}
+.footer__legal a:hover {
+  color: #fff;
 }
 
 /*# sourceMappingURL=app.css.map */
