@@ -13,11 +13,11 @@
 
 				<p class="footer__disclaimer">
 					ATINE є дієтичною добавкою. Продукт не призначений для
-															діагностики, лікування чи профілактики будь-яких захворювань
-															і не замінює призначене лікарем лікування.
-															Рішення щодо застосування ATINE, особливо на фоні
-															онкологічного або іншого спеціалізованого лікування,
-															слід приймати разом із вашим лікарем.
+					діагностики, лікування чи профілактики будь-яких захворювань
+					і не замінює призначене лікарем лікування.
+					Рішення щодо застосування ATINE, особливо на фоні
+					онкологічного або іншого спеціалізованого лікування,
+					слід приймати разом із вашим лікарем.
 				</p>
 
 				<div class="footer__socials">
@@ -57,25 +57,22 @@
 				</ul>
 			</div>
 
-			<!-- Company -->
 			<div class="footer__col">
 				<h4>Патенти</h4>
 				<ul>
 					<li><a href="https://drive.google.com/file/d/1v_H_nfLiTJegtiOvc4Htrku3E35XkEya/view?usp=sharing">Корисна модель</a></li>
-					<li><a href="#">Наука</a></li>
-					<li><a href="#">Якість</a></li>
-					<li><a href="#">Контакти</a></li>
 				</ul>
 			</div>
 
 		</div>
 
 		<div class="footer__bottom">
-			<span>© 2025 ATINE. Усі права захищені.</span>
+			{% set startYear = 2025 %}
+			{% set currentYear = "now"|date("Y") %}
+			<span>© {{ startYear }}{% if currentYear > startYear %}–{{ currentYear }}{% endif %} ATINE. Усі права захищені.</span>
 
 			<div class="footer__legal">
-				<a href="#">Політика конфіденційності</a>
-				<a href="#">Умови надання послуг</a>
+				Designed and developed by <a href="https://www.instagram.com/helldemid/" target="_blank" rel="noopener noreferrer">helldemid</a>
 			</div>
 		</div>
 
