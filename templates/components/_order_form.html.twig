@@ -1,9 +1,14 @@
-<form method="post" action="/order" class="order-form">
+<form method="post" action="{{ path('order_create', {'_locale': app.request.locale}) }}" class="order-form">
 	<h4 class="order-form__title">Замовити зараз</h4>
+	<input type="hidden" name="company" tabindex="-1" autocomplete="off" class="hp">
+
+	<input type="hidden" name="_csrf_token" value="{{ csrf_token('order_form') }}">
 	<input type="hidden" name="product_id" value="{{ product.id }}">
 
-	<input type="email" placeholder="Ваш email" name="email" autocomplete="email">
-	<input type="tel" placeholder="Ваш телефон" name="phone" autocomplete="tel">
+	<input type="email" placeholder="Ваш email" name="email" autocomplete="email" required>
+	<input type="tel" placeholder="Ваш телефон" name="phone" autocomplete="tel" required>
 
-	<button>Замовити {{ product.name }} · ₴{{ product.price }}</button>
+	<button>Замовити
+		{{ product.name }}
+		· ₴{{ product.price }}</button>
 </form>

@@ -113,4 +113,76 @@ document.addEventListener('DOMContentLoaded', function () {
 		link.addEventListener('click', closeMenu);
 	});
 
+
+	// International Telephone Input
+	document.querySelectorAll('input[type="tel"]').forEach(input => {
+		const iti = window.intlTelInput(input, {
+			initialCountry: 'ua',
+			separateDialCode: true,
+			utilsScript:
+				'https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js'
+		});
+
+		input._iti = iti;
+	});
+
+
+	document.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target;
+
+		// убрать предыдущие подсветки ошибок
+		form.querySelectorAll('.error').forEach(i => i.classList.remove('error'));
+
+		const phoneInput = form.querySelector('input[type="tel"]');
+		const emailInput = form.querySelector('input[type="email"]');
+		const productSelect = form.querySelector('select[name="product_id"]') || null;
+		const nameInput = form.querySelector('input[name="name"]') || null;
+		const iti = phoneInput?._iti;
+
+		if (!iti || !iti.isValidNumber()) {
+			if (phoneInput) phoneInput.classList.add('error');
+			AlertService.error('Некоректний номер телефону');
+			return;
+		}
+
+		const formData = new FormData(form);
+		formData.set('phone', iti.getNumber());
+
+		// простая фронтовая валидация
+		if (!formData.get('email')) {
+			if (emailInput) emailInput.classList.add('error');
+			AlertService.error('Заповніть всі поля');
+			return;
+		}
+
+		if (parseInt(formData.get('product_id')) < 0) {
+			if (productSelect) productSelect.classList.add('error');
+			AlertService.error('Оберіть товар');
+			return;
+		}
+
+		if (nameInput && !formData.get('name')) {
+			nameInput.classList.add('error');
+			AlertService.error('Заповніть всі поля');
+			return;
+		}
+
+		try {
+			ApiService.post(form.action, Object.fromEntries(formData)).then(async (response) => {
+				if (response.status !== 'ok') {
+					AlertService.error(response.message || 'Помилка');
+					return;
+				}
+
+				AlertService.success(response.message || 'Дякуємо! Ваше замовлення прийнято.', response.header || 'Замовлення прийнято');
+				form.reset();
+			});
+		} catch (err) {
+			AlertService.error('Виникла помилка, спробуйте пізніше.');
+		}
+	});
+
+
+
 });

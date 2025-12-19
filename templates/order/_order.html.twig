@@ -20,8 +20,8 @@
 
 				<p class="order__info-text">
 					Залиште заявку — ми звʼяжемось з вами, надамо детальну
-					інформацію про ATINE, допоможемо обрати форму та
-					орієнтовний курс, який ви узгодите зі своїм лікарем.
+										інформацію про ATINE, допоможемо обрати форму та
+										орієнтовний курс, який ви узгодите зі своїм лікарем.
 				</p>
 
 				<div class="order__contact">
@@ -58,26 +58,36 @@
 					Дбайте про своє здоровʼя та самопочуття разом з ATINE
 				</p>
 
-				<form method="post" action="/order">
-					<input type="text" name="name" placeholder="Введіть імʼя..." required autocomplete ="name">
+				<form method="post" action="{{ path('order_create', {_locale: app.request.locale}) }}">
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('order_form') }}">
+					<input type="text" name="company" tabindex="-1" autocomplete="off" class="hp">
+
+					<input type="text" name="name" placeholder="Введіть імʼя..." autocomplete="name">
+
 					<input type="email" name="email" placeholder="Введіть пошту..." required autocomplete="email">
+
 					<input type="tel" name="phone" placeholder="Введіть номер телефону..." required autocomplete="tel">
 
-					<select name="product" required>
+					<select name="product_id" required>
 						<option value="-1">Оберіть товар...</option>
 						{% for product in products %}
-							<option value="{{ product.id }}">{{ product.name }} | ₴{{ product.price }}</option>
+							<option value="{{ product.id }}">
+								{{ product.name }}
+								| ₴{{ product.price }}
+							</option>
 						{% endfor %}
 					</select>
 
-					<button type="submit">
-						Замовити
-					</button>
+					<button type="submit">Замовити</button>
+
+					<div class="order-form__result"></div>
 				</form>
+
 
 				<p class="order__privacy">
 					Заповнюючи форму, ви погоджуєтеся на обробку та зберігання
-					персональних даних відповідно до політики Atine.
+										персональних даних відповідно до політики Atine.
 				</p>
 
 			</div>

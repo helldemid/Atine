@@ -12,7 +12,7 @@ final class LandingController extends AbstractController
 	#[Route(
 		path: '/{_locale}',
 		name: 'landing',
-		requirements: ['_locale' => 'ua|en'],
+		requirements: ['_locale' => 'ua|ru|en'],
 		defaults: ['_locale' => 'ua'],
 		methods: ['GET']
 	)]
