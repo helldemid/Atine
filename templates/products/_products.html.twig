@@ -39,7 +39,7 @@
 				{% for product in products %}
 					<div class="product-info {% if loop.first %}is-active{% endif %}" data-product-index="{{ loop.index0 }}">
 
-						<h3>{{ product.name }}</h3>
+						<h3><span class="company_name">ATINE®</span> {{ product.name }}</h3>
 						<p class="desc">{{ product.description }}</p>
 						<div class="subtitle">
 							{% set parts = product.subtitle ? product.subtitle|split(',') : [] %}

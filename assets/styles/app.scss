@@ -841,31 +841,62 @@ body.menu-open {
 			width: rem(48);
 			height: rem(48);
 			border-radius: 50%;
-			background: rgb(0, 0, 0);
-			border: 1px solid rgba(255, 255, 255, 0.25);
 			cursor: pointer;
-			transition: background 0.25s ease, transform 0.15s ease;
+
+			/* БАЗА */
+			background: linear-gradient(145deg,
+					rgba(215, 170, 80, 0.95),
+					rgba(150, 105, 30, 0.95));
+			border: 1px solid rgba(255, 215, 130, 0.85);
+
+			/* КОНТРАСТ НА ЛЮБОМ ФОНЕ */
+			box-shadow:
+				0 0 0 1px rgba(0, 0, 0, 0.35), // тёмный ореол
+				0 0 0 3px rgba(255, 255, 255, 0.25), // светлый ореол
+				0 8px 20px rgba(0, 0, 0, 0.35); // глубина
+
+			backdrop-filter: blur(6px);
+			-webkit-backdrop-filter: blur(6px);
+
+			transition:
+				transform 0.15s ease,
+				box-shadow 0.2s ease,
+				background 0.25s ease;
 
 			&:hover {
-				border-color: var(--gold);
+				transform: translateY(-50%) scale(1.06);
+				box-shadow:
+					0 0 0 1px rgba(0, 0, 0, 0.45),
+					0 0 0 4px rgba(255, 215, 130, 0.55),
+					0 10px 26px rgba(0, 0, 0, 0.45);
 			}
 
 			&:disabled {
 				opacity: 0.4;
 				cursor: default;
+				box-shadow: none;
 			}
 		}
 
 		.slider-icon {
 			width: rem(24);
 			height: rem(24);
+
 			stroke: #fff;
-			stroke-width: 2;
+			stroke-width: 2.2;
 			fill: none;
-			stroke-linecap: round;
-			stroke-linejoin: round;
+
+			/* Контур + читаемость */
+			filter:
+				drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 4px rgba(255, 215, 130, 0.6));
+
 			transition: transform 0.2s ease;
 		}
+
+		.slider-btn:hover .slider-icon {
+			transform: scale(1.1);
+		}
+
 
 		.slider-btn.prev:hover .slider-icon {
 			transform: translateX(-2px);
@@ -899,6 +930,10 @@ body.menu-open {
 		font-weight: 600;
 		line-height: 1.1;
 		margin-bottom: rem(16);
+
+		span {
+			font-family: "Hepta Slab", serif;
+		}
 	}
 
 	.subtitle {
@@ -983,6 +1018,7 @@ body.menu-open {
 		&:focus {
 			border-color: var(--gold);
 		}
+
 		&.error {
 			border-color: #ff4d4f;
 			box-shadow: 0 0 0 4px rgba(255, 77, 79, 0.1);
@@ -1593,7 +1629,8 @@ body.menu-open {
 	&__slider {
 		position: relative;
 
-		&:hover .media__nav, &:active .media__nav {
+		&:hover .media__nav,
+		&:active .media__nav {
 			.prev {
 				left: 14px;
 			}
@@ -1642,31 +1679,65 @@ body.menu-open {
 			width: rem(48);
 			height: rem(48);
 			border-radius: 50%;
-			background: rgb(0, 0, 0);
-			border: 1px solid rgba(255, 255, 255, 0.25);
 			cursor: pointer;
-			transition: background 0.25s ease, transform 0.15s ease, left 0.3s ease, right 0.3s ease;
+
+			/* БАЗА */
+			background: linear-gradient(145deg,
+					rgba(215, 170, 80, 0.95),
+					rgba(150, 105, 30, 0.95));
+			border: 1px solid rgba(255, 215, 130, 0.85);
+
+			/* КОНТРАСТ НА ЛЮБОМ ФОНЕ */
+			box-shadow:
+				0 0 0 1px rgba(0, 0, 0, 0.35), // тёмный ореол
+				0 0 0 3px rgba(255, 255, 255, 0.25), // светлый ореол
+				0 8px 20px rgba(0, 0, 0, 0.35); // глубина
+
+			backdrop-filter: blur(6px);
+			-webkit-backdrop-filter: blur(6px);
+
+			transition:
+				transform 0.15s ease,
+				box-shadow 0.2s ease,
+				background 0.25s ease,
+				right 0.3s ease,
+				left 0.3s ease;
 
 			&:hover {
-				border-color: var(--gold);
+				transform: translateY(-50%) scale(1.06);
+				box-shadow:
+					0 0 0 1px rgba(0, 0, 0, 0.45),
+					0 0 0 4px rgba(255, 215, 130, 0.55),
+					0 10px 26px rgba(0, 0, 0, 0.45);
 			}
 
 			&:disabled {
 				opacity: 0.4;
 				cursor: default;
+				box-shadow: none;
 			}
 		}
+
 
 		.slider-icon {
 			width: rem(24);
 			height: rem(24);
+
 			stroke: #fff;
-			stroke-width: 2;
+			stroke-width: 2.2;
 			fill: none;
-			stroke-linecap: round;
-			stroke-linejoin: round;
+
+			/* Контур + читаемость */
+			filter:
+				drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 4px rgba(255, 215, 130, 0.6));
+
 			transition: transform 0.2s ease;
 		}
+
+		.slider-btn:hover .slider-icon {
+			transform: scale(1.1);
+		}
+
 
 		.slider-btn.prev:hover .slider-icon {
 			transform: translateX(-2px);
@@ -2040,6 +2111,7 @@ body.menu-open {
 				background: #fff;
 				box-shadow: 0 0 0 4px rgba(198, 160, 89, 0.1);
 			}
+
 			&.error {
 				border-color: #ff4d4f;
 				box-shadow: 0 0 0 4px rgba(255, 77, 79, 0.1);
