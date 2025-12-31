@@ -1195,11 +1195,17 @@ body.menu-open {
 		@include mq(tablet) {
 			font-size: rem(72);
 		}
+		@include mq(mobile) {
+			font-size: rem(36);
+		}
 	}
 
 	&__years-text {
 		font-size: rem(36);
 		color: rgba(255, 255, 255, .8);
+		@include mq(mobile) {
+			font-size: rem(24);
+		}
 	}
 
 	&__lead {
@@ -1435,6 +1441,13 @@ body.menu-open {
 
 		img {
 			rotate: 180deg;
+		}
+	}
+
+	&__badge {
+		margin-bottom: 1rem;
+		h3 {
+			margin-bottom: 1rem;
 		}
 	}
 
